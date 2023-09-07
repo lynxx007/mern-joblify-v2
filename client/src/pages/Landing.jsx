@@ -1,5 +1,5 @@
 import Wrapper from "../assets/wrappers/LandingPage"
-import logo from '../assets/images/logo.svg'
+import logo from '../assets/images/favicon.svg'
 import main from '../assets/images/main-alternative.svg'
 import { Link } from "react-router-dom"
 const Landing = () => {
