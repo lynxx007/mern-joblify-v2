@@ -1,34 +1,15 @@
 import Wrapper from '../assets/wrappers/Dashboard'
 import { Outlet } from 'react-router-dom'
 import { BigSidebar, Navbar, SmallSidebar } from '../components'
-import { useState, createContext } from 'react'
+import DashboardProvider from '../context/DashboardContext'
 
-export const DashboardContext = createContext()
+
 
 const DashboardLayout = () => {
-    const [showSidebar, setShowSidebar] = useState(false)
-    const [isDarkTheme, setIsDarkTheme] = useState(false)
 
-    const toggleSidebar = () => {
-        setShowSidebar(!showSidebar)
-    }
-
-    const toggleDarkTheme = () => {
-        const newDarkTheme = !isDarkTheme
-        setIsDarkTheme(newDarkTheme)
-        document.body.classList.toggle('dark-theme', newDarkTheme)
-        localStorage.setItem('darkTheme', newDarkTheme)
-    }
-
-    const value = {
-        showSidebar,
-        isDarkTheme,
-        toggleDarkTheme,
-        toggleSidebar
-    }
 
     return (
-        <DashboardContext.Provider value={value}>
+        <DashboardProvider>
             <Wrapper>
                 <main className='dashboard'>
                     <SmallSidebar />
@@ -41,7 +22,7 @@ const DashboardLayout = () => {
                     </div>
                 </main>
             </Wrapper>
-        </DashboardContext.Provider>
+        </DashboardProvider>
     )
 }
 
