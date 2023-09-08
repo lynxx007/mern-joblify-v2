@@ -14,7 +14,10 @@ const DashboardLayout = () => {
     }
 
     const toggleDarkTheme = () => {
-        console.log('toggled');
+        const newDarkTheme = !isDarkTheme
+        setIsDarkTheme(newDarkTheme)
+        document.body.classList.toggle('dark-theme', newDarkTheme)
+        localStorage.setItem('darkTheme', newDarkTheme)
     }
 
     const value = {
