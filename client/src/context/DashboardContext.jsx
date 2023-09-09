@@ -4,9 +4,9 @@ import { createContext, useState } from "react"
 
 export const DashboardContext = createContext()
 
-const DashboardProvider = ({ children }) => {
+const DashboardProvider = ({ children, isDarkThemeEnabled }) => {
     const [showSidebar, setShowSidebar] = useState(false);
-    const [isDarkTheme, setIsDarkTheme] = useState(false);
+    const [isDarkTheme, setIsDarkTheme] = useState(isDarkThemeEnabled);
 
     const toggleSidebar = () => {
         setShowSidebar(!showSidebar);
