@@ -5,6 +5,9 @@ import { notFound } from './middlewares/notFound.js'
 import { errorHandler } from './middlewares/errorHandler.js'
 
 import jobsRouter from './routers/jobRouter.js'
+import { connectDb } from './config/connectDb.js'
+
+await connectDb()
 
 const app = express()
 
