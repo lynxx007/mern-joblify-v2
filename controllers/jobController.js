@@ -13,7 +13,7 @@ export const createJob = async (req, res) => {
 
     res.status(201).json({ job })
 }
-export const getAllJobs = async (req, res) => {
+export const getAllJobs = async (_, res) => {
     const jobs = await Job.find()
 
     res.status(200).json({ jobs })

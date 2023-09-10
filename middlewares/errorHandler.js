@@ -1,4 +1,4 @@
-export const errorHandler = (err, req, res, next) => {
+export const errorHandler = (err, _, res, next) => {
     console.log(err)
     const statusCode = err.statusCode || 500
     const msg = err.message || 'Internal Server Error'
