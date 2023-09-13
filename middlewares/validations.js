@@ -40,3 +40,8 @@ export const validateRegisterInput = withValidationErrors([
     body('location').notEmpty().withMessage('location is required'),
     body('lastName').notEmpty().withMessage('last name is required'),
 ])
+
+export const validateLoginInput = withValidationErrors([
+    body('email').notEmpty().isEmail().withMessage('invalid email'),
+    body('password').notEmpty().withMessage('password is required')
+])
