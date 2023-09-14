@@ -2,6 +2,7 @@ import express from 'express'
 import 'express-async-errors'
 import morgan from 'morgan'
 import 'dotenv/config'
+import cookieParser from 'cookie-parser'
 import { notFound } from './middlewares/notFound.js'
 import { errorHandler } from './middlewares/errorHandler.js'
 
@@ -14,6 +15,8 @@ await connectDb()
 
 const app = express()
 
+
+app.use(cookieParser())
 
 
 if (process.env.NODE_ENV === 'development') {
