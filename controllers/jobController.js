@@ -9,12 +9,14 @@ export const createJob = async (req, res) => {
         })
     }
 
-    const job = await Job.create({ company, position })
+    req.body.createdBy = req.user.userId
+
+    const job = await Job.create(req.body)
 
     res.status(201).json({ job })
 }
-export const getAllJobs = async (_, res) => {
-    const jobs = await Job.find()
+export const getAllJobs = async (req, res) => {
+    const jobs = await Job.find({ createdBy: req.user.userId })
 
     res.status(200).json({ jobs })
 }

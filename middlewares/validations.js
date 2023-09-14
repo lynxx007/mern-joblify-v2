@@ -1,5 +1,5 @@
 import { validationResult, body } from "express-validator"
-import { BadRequestError } from "../errors/customError.js"
+import { BadRequestError, UnauthorizedError } from "../errors/customError.js"
 import { JOB_STATUS, JOB_TYPE } from "../utils/constants.js"
 import User from "../models/userModel.js"
 
@@ -12,6 +12,7 @@ const withValidationErrors = validateValues => {
                 return next()
             }
             const errorMessages = errors.array().map(err => err.msg)
+            if (errorMessages[0].startsWith('not authorized')) throw new UnauthorizedError('not authorized to access this resource')
             throw new BadRequestError(errorMessages)
         }
     ]
