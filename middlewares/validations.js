@@ -1,7 +1,8 @@
-import { validationResult, body } from "express-validator"
+import { validationResult, body, param } from "express-validator"
 import { BadRequestError, UnauthorizedError } from "../errors/customError.js"
 import { JOB_STATUS, JOB_TYPE } from "../utils/constants.js"
 import User from "../models/userModel.js"
+import Job from "../models/jobModel.js"
 
 const withValidationErrors = validateValues => {
     return [
@@ -45,4 +46,18 @@ export const validateRegisterInput = withValidationErrors([
 export const validateLoginInput = withValidationErrors([
     body('email').notEmpty().isEmail().withMessage('invalid email'),
     body('password').notEmpty().withMessage('password is required')
+])
+
+export const validateParams = withValidationErrors([
+    param('id').custom(async (value, { req }) => {
+        const isValidMongoId = mongoose.Types.ObjectId.isValid(value)
+        if (!isValidMongoId) throw new BadRequestError('invalid MongoDB id')
+
+        const job = await Job.findById(value)
+        if (!job) throw new NotFoundError(`job not found id ${value}`)
+
+        const isAdmin = req.user.role === 'admin'
+        const isOwner = req.user.userId === job.createdBy.toString()
+        if (!isAdmin && !isOwner) throw new UnauthorizedError('unauthorized')
+    })
 ])
