@@ -8,6 +8,7 @@ import { errorHandler } from './middlewares/errorHandler.js'
 import jobsRouter from './routers/jobRouter.js'
 import authRouter from './routers/authRouter.js'
 import { connectDb } from './config/connectDb.js'
+import { authenticateUser } from './middlewares/authMiddleware.js'
 
 await connectDb()
 
@@ -22,7 +23,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json())
 
 
-app.use('/api/v1/jobs', jobsRouter)
+app.use('/api/v1/jobs', authenticateUser, jobsRouter)
 app.use('/api/v1/auth', authRouter)
 
 
