@@ -1,10 +1,12 @@
 import { Router } from "express";
-import { getCurrentUser } from "../controllers/userController.js";
+import { getApplicationStats, getCurrentUser, updateUser } from "../controllers/userController.js";
+import { validateUpdateUserInput } from "../middlewares/validations.js";
+import { authorizePermissions } from "../middlewares/authMiddleware.js";
 
 const router = Router();
 
 router.get('/current-user', getCurrentUser)
-router.get('/admin/app-stats')
-router.patch('/update-user')
+router.get('/admin/app-stats', authorizePermissions('admin'), getApplicationStats)
+router.patch('/update-user', validateUpdateUserInput, updateUser)
 
 export default router
