@@ -61,3 +61,19 @@ export const validateParams = withValidationErrors([
         if (!isAdmin && !isOwner) throw new UnauthorizedError('unauthorized')
     })
 ])
+
+export const validateUpdateUserInput = withValidationErrors([
+    body('name').notEmpty().withMessage('name is required'),
+    body('email')
+        .notEmpty()
+        .isEmail()
+        .withMessage('email is required')
+        .custom(async (email, { req }) => {
+            const user = await User.findOne({ email })
+            if (user && user._id.toString() !== req.user.userId) {
+                throw new Error('Email already exists')
+            }
+        }),
+    body('lastName').notEmpty().withMessage('last name is required'),
+    body('location').notEmpty().withMessage('location is required'),
+])
