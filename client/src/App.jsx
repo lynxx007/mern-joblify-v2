@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { AddJob, Admin, AllJobs, DashboardLayout, Error, HomeLayout, Landing, Login, Profile, Register, Stats } from './pages'
 import { action as registerAction } from './pages/Register'
-
+import { action as loginAction } from './pages/Login'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -19,7 +19,8 @@ const router = createBrowserRouter([
       },
       {
         path: 'login',
-        element: <Login />
+        element: <Login />,
+        action: loginAction
       },
       {
         path: 'dashboard',
