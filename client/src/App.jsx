@@ -1,8 +1,5 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { AddJob, Admin, AllJobs, DashboardLayout, Error, HomeLayout, Landing, Login, Profile, Register, Stats } from './pages'
-import { action as registerAction } from './pages/Register'
-import { action as loginAction } from './pages/Login'
-import { loader as currentUserLoader } from './pages/DashboardLayout'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -16,17 +13,14 @@ const router = createBrowserRouter([
       {
         path: 'register',
         element: <Register />,
-        action: registerAction
       },
       {
         path: 'login',
         element: <Login />,
-        action: loginAction
       },
       {
         path: 'dashboard',
         element: <DashboardLayout />,
-        loader: currentUserLoader,
         children: [
           {
             index: true,
