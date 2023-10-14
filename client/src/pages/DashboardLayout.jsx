@@ -5,11 +5,15 @@ import DashboardProvider from '../context/DashboardContext'
 
 import { checkDefaultTheme } from '../utils/checkDefaultTheme'
 
+
+
 const isDarkThemeEnabled = checkDefaultTheme()
 
 
 
 const DashboardLayout = () => {
+
+
     return (
         <DashboardProvider isDarkThemeEnabled={isDarkThemeEnabled}>
             <Wrapper>
@@ -27,7 +31,6 @@ const DashboardLayout = () => {
         </DashboardProvider>
     )
 }
-
 
 
 export default DashboardLayout
