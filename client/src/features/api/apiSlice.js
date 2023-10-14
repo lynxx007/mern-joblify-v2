@@ -12,8 +12,28 @@ export const apiSlice = createApi({
                 method: 'POST',
                 body: data
             })
-        })
+        }),
+        login: builder.mutation({
+            query: data => ({
+                url: '/auth/login',
+                method: 'POST',
+                body: data
+            })
+        }),
+        logout: builder.query({
+            query: () => ({
+                url: '/auth/logout',
+                method: 'GET'
+            })
+        }),
+        getCurrentUser: builder.query({
+            query: () => ({
+                url: '/users/current-user',
+                method: 'GET'
+            })
+        }),
     })
 })
 
-export const { useRegisterMutation } = apiSlice
+export const { useRegisterMutation, useLoginMutation, useGetCurrentUserQuery, useLogoutQuery } = apiSlice
+
