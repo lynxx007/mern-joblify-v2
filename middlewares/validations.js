@@ -3,6 +3,7 @@ import { BadRequestError, UnauthorizedError } from "../errors/customError.js"
 import { JOB_STATUS, JOB_TYPE } from "../utils/constants.js"
 import User from "../models/userModel.js"
 import Job from "../models/jobModel.js"
+import mongoose from "mongoose"
 
 const withValidationErrors = validateValues => {
     return [
@@ -12,8 +13,11 @@ const withValidationErrors = validateValues => {
             if (errors.isEmpty()) {
                 return next()
             }
+
             const errorMessages = errors.array().map(err => err.msg)
+
             if (errorMessages[0].startsWith('not authorized')) throw new UnauthorizedError('not authorized to access this resource')
+
             throw new BadRequestError(errorMessages)
         }
     ]
