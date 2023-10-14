@@ -1,4 +1,4 @@
-import { Form, Link, useNavigate, useNavigation } from 'react-router-dom'
+import { Form, Link, useNavigate } from 'react-router-dom'
 import { FormRow, Logo } from '../components'
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage'
 import { useState } from 'react'
@@ -7,9 +7,8 @@ import { toast } from 'react-toastify'
 
 
 const Register = () => {
-    const navigation = useNavigation()
     const navigate = useNavigate()
-    const isSubmitting = navigation.state === 'submitting'
+
     const [formData, setFormData] = useState({})
     const [register, { isLoading }] = useRegisterMutation()
 
@@ -26,10 +25,10 @@ const Register = () => {
             await register(formData).unwrap()
             setFormData({})
             toast.success('Registered Successfully')
-            navigate('/')
+            navigate('/login')
         } catch (error) {
             toast.error(error?.data?.msg)
-            console.log(error);
+            return error
         }
 
     }
@@ -43,8 +42,8 @@ const Register = () => {
                 <FormRow type='text' name='location' onChange={handleChange} />
                 <FormRow type='email' name='email' onChange={handleChange} />
                 <FormRow type='password' name='password' onChange={handleChange} />
-                <button type='submit' className='btn btn-block' disabled={isSubmitting}>
-                    {isSubmitting ? 'submitting...' : 'submit'}
+                <button type='submit' className='btn btn-block' disabled={isLoading}>
+                    {isLoading ? 'submitting...' : 'submit'}
                 </button>
                 <p>Already a member? <Link to='/login' className='member-btn'>Login</Link></p>
             </Form>
