@@ -1,36 +1,48 @@
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage'
-import { Link, Form, redirect, useNavigation } from 'react-router-dom'
+import { Link, Form, useNavigate } from 'react-router-dom'
 import { Logo, FormRow } from '../components'
-import { customFetch } from '../utils/customFetch'
 import { toast } from 'react-toastify'
+import { useLoginMutation } from '../features/api/apiSlice'
+import { useState } from 'react'
 
-export const action = async ({ request }) => {
-    const formData = await request.formDate()
-    const data = Object.fromEntries(formData)
-    try {
-        await customFetch.post('/auth/login', data)
-        toast.success('Login Successful')
-        return redirect('/dashboard')
-    } catch (error) {
-        toast.error(error?.response?.data?.msg)
-        return error
-    }
-}
+
+
 
 const Login = () => {
-    const navigation = useNavigation()
-    const isSubmitting = navigation.state === 'submitting'
+    const navigate = useNavigate()
+    const [login, { isLoading }] = useLoginMutation()
+    const [formData, setFormData] = useState({})
+
+
+    const handleChange = e => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const handleSubmit = async e => {
+        e.preventDefault()
+        try {
+            await login(formData).unwrap()
+            toast.success('Login Successfully')
+            navigate('/dashboard')
+        } catch (error) {
+            toast.error(error?.data?.msg)
+        }
+
+    }
     return (
         <Wrapper>
-            <form className='form'>
+            <Form className='form' onSubmit={handleSubmit}>
                 <Logo />
                 <h4>Login</h4>
-                <FormRow type='email' name='email' defaultValue='john@mail.com' />
-                <FormRow type='password' name='password' defaultValue='secret123' />
-                <button type='submit' className='btn btn-block' disabled={isSubmitting}>{isSubmitting ? "submitting" : 'submit'}</button>
+                <FormRow type='email' name='email' defaultValue='luthfi@mail.com' onChange={handleChange} />
+                <FormRow type='password' name='password' defaultValue='secret123' onChange={handleChange} />
+                <button type='submit' className='btn btn-block' disabled={isLoading}>{isLoading ? "submitting" : 'submit'}</button>
                 <button type='button' className='btn btn-block'>explore the app</button>
                 <p>Not a member? <Link to='/register' className='member-btn'>Register</Link></p>
-            </form>
+            </Form>
         </Wrapper>
     )
 }
