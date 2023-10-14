@@ -13,16 +13,16 @@ export const register = async (req, res) => {
     req.body.password = hashedPassword
 
     const user = await User.create(req.body)
-    res.status(201).json({ msg: 'user created' })
+    res.status(201).json({ msg: 'User created' })
 }
 
 export const login = async (req, res) => {
 
     const user = await User.findOne({ email: req.body.email })
-    if (!user) throw new UnauthenticatedError('invalid credentials')
+    if (!user) throw new UnauthenticatedError('Invalid credentials')
 
     const isValidUser = user && (await comparePassword(req.body.password, user.password))
-    if (!isValidUser) throw new UnauthenticatedError('invalid credentials')
+    if (!isValidUser) throw new UnauthenticatedError('Invalid credentials')
 
     // generate token
     const token = createJwt({ userId: user._id, role: user.role })
@@ -33,7 +33,7 @@ export const login = async (req, res) => {
         secure: process.env.NODE_ENV === 'production'
     })
 
-    res.status(200).json({ msg: 'user logged in' })
+    res.status(200).json({ msg: 'User logged in' })
 }
 
 export const logout = (req, res) => {
@@ -42,5 +42,5 @@ export const logout = (req, res) => {
         expires: new Date(Date.now())
     })
 
-    res.status(200).json({ msg: 'user logged out' })
+    res.status(200).json({ msg: 'User logged out' })
 }
