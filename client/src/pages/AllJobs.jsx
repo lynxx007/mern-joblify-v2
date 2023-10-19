@@ -1,8 +1,11 @@
-import React from 'react'
+import JobContainer from '../components/JobsContainer'
 
 const AllJobs = () => {
     return (
-        <div>AllJobs</div>
+        <>
+
+            <JobContainer />
+        </>
     )
 }
 
