@@ -44,9 +44,29 @@ export const apiSlice = createApi({
                 url: '/jobs',
                 method: 'GET'
             })
+        }),
+        getJob: builder.query({
+            query: (id) => ({
+                url: `/jobs/${id}`,
+                method: 'GET'
+            })
+        }),
+        editJob: builder.mutation({
+            query: ({ id, ...patch }) => ({
+                url: `/jobs/${id}`,
+                method: 'PATCH',
+                body: patch
+            })
         })
     })
 })
 
-export const { useRegisterMutation, useLoginMutation, useGetCurrentUserQuery, useLogoutQuery, useAddJobMutation, useGetJobsQuery } = apiSlice
+export const { useRegisterMutation,
+    useLoginMutation,
+    useGetCurrentUserQuery,
+    useLogoutQuery,
+    useAddJobMutation,
+    useGetJobsQuery,
+    useEditJobMutation,
+    useGetJobQuery } = apiSlice
 
