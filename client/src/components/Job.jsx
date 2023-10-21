@@ -4,11 +4,23 @@ import Wrapper from '../assets/wrappers/Job'
 import JobInfo from './JobInfo'
 import day from "dayjs";
 import advancedFormat from 'dayjs/plugin/advancedFormat'
+import { useDeleteJobMutation } from "../features/api/apiSlice";
+import { toast } from "react-toastify";
 day.extend(advancedFormat)
 
 const Job = ({ _id, position, company, jobLocation, jobType, createdAt, jobStatus }) => {
     const date = day(createdAt).format('MMMM Do, YYYY');
+    const [deleteJob, { isLoading }] = useDeleteJobMutation()
 
+    const handleDeleteJob = async e => {
+        e.preventDefault()
+        try {
+            await deleteJob(_id).unwrap()
+            toast.success('Job deleted successfully')
+        } catch (error) {
+            toast.error(error?.data?.msg)
+        }
+    }
     return (
         <Wrapper>
             <header>
@@ -27,9 +39,9 @@ const Job = ({ _id, position, company, jobLocation, jobType, createdAt, jobStatu
                 </div>
                 <footer className="actions">
                     <Link to={`/dashboard/edit-job/${_id}`} className="btn edit-btn">Edit</Link>
-                    <Form>
-                        <button type="submit" className="btn delete-btn">
-                            Delete
+                    <Form method="post" onSubmit={handleDeleteJob} >
+                        <button type="submit" className="btn delete-btn" disabled={isLoading}>
+                            {isLoading ? 'Deleting...' : 'Delete'}
                         </button>
                     </Form>
                 </footer>
