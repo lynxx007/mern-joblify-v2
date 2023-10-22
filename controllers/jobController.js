@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import { NotFoundError } from '../errors/customError.js'
 import Job from '../models/jobModel.js'
+import day from 'dayjs'
 export const createJob = async (req, res) => {
     const { company, position } = req.body
 
