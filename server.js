@@ -11,10 +11,19 @@ import authRouter from './routers/authRouter.js'
 import userRouter from './routers/userRouter.js'
 import { connectDb } from './config/connectDb.js'
 import { authenticateUser } from './middlewares/authMiddleware.js'
+import path, { dirname } from 'path'
+import { fileURLToPath } from 'url'
+
+
+
 
 await connectDb()
 
+var __dirname = dirname(fileURLToPath(import.meta.url))
+
 const app = express()
+
+app.use(express.static(path.resolve(__dirname, './public')))
 
 
 app.use(cookieParser())
