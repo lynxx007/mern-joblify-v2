@@ -3,6 +3,7 @@ import Wrapper from '../assets/wrappers/Navbar'
 import { useDashboardContext } from '../hooks/useDashboardContext'
 import Logo from './Logo'
 import ToggleTheme from './ToggleTheme'
+import LogoutContainer from './LogoutContainer'
 const Navbar = () => {
     const { toggleSidebar } = useDashboardContext()
     return (
@@ -17,6 +18,7 @@ const Navbar = () => {
                 </div>
                 <div className='btn-container'>
                     <ToggleTheme />
+                    <LogoutContainer />
                 </div>
             </div>
         </Wrapper>
