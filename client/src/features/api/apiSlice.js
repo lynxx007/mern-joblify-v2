@@ -22,7 +22,7 @@ export const apiSlice = createApi({
                 body: data
             })
         }),
-        logout: builder.query({
+        logout: builder.mutation({
             query: () => ({
                 url: '/auth/logout',
                 method: 'GET'
@@ -77,6 +77,13 @@ export const apiSlice = createApi({
                 method: 'GET'
             }),
             providesTags: ['Users', 'Jobs']
+        }),
+        updateUser: builder.mutation({
+            query: (data) => ({
+                url: '/users/update-user',
+                method: 'PATCH',
+                body: data
+            })
         })
     })
 })
@@ -84,11 +91,12 @@ export const apiSlice = createApi({
 export const { useRegisterMutation,
     useLoginMutation,
     useGetCurrentUserQuery,
-    useLogoutQuery,
+    useLogoutMutation,
     useAddJobMutation,
     useGetJobsQuery,
     useEditJobMutation,
     useGetJobQuery,
     useDeleteJobMutation,
-    useGetAppStatsQuery } = apiSlice
+    useGetAppStatsQuery,
+    useUpdateUserMutation } = apiSlice
 
