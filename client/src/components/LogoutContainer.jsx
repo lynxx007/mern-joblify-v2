@@ -1,30 +1,43 @@
 import { FaUserCircle, FaCaretDown } from "react-icons/fa";
 import Wrapper from '../assets/wrappers/LogoutContainer'
 import { useState } from "react";
-import { useDispatch, useSelector } from 'react-redux'
-import { logout } from "../features/auth/authSlice";
+import { useGetCurrentUserQuery, useLogoutMutation } from "../features/api/apiSlice";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 
 
 
-export const LogoutContainer = () => {
-    const user = useSelector(state => state.auth.user)
-    const dispatch = useDispatch()
+const LogoutContainer = () => {
+    const { data, isSuccess } = useGetCurrentUserQuery()
+    const [logout, { isLoading }] = useLogoutMutation()
     const [showLogout, setShowLogout] = useState(false)
+    const navigate = useNavigate()
+    const handleLogout = async () => {
+        try {
+            await logout().unwrap()
+            toast.success("Logout Successfully")
+            navigate('/login')
+        } catch (error) {
+            toast.error(error?.data?.msg)
+        }
+    }
 
-    return (
-        <Wrapper>
-            <button type="button" className="btn logout-btn" onClick={() => setShowLogout(!showLogout)}>
-                {user.avatar ? <img src={user.avatar} alt="avatar" className="img" />
-                    : <FaUserCircle />}
-                {user?.name}
-                <FaCaretDown />
-            </button>
-            <div className={showLogout ? 'dropdown show-dropdown' : 'dropdown'}>
-                <button type="button" className="dropdown-btn" onClick={() => dispatch(logout())}>
-                    logout
+    if (isSuccess)
+        return (
+            <Wrapper>
+                <button type="button" className="btn logout-btn" onClick={() => setShowLogout(!showLogout)}>
+                    {data?.user?.avatar ? <img src={data?.user?.avatar} alt="avatar" className="img" />
+                        : <FaUserCircle />}
+                    {data?.user?.name}
+                    <FaCaretDown />
                 </button>
-            </div>
-        </Wrapper>
-    )
+                <div className={showLogout ? 'dropdown show-dropdown' : 'dropdown'}>
+                    <button type="button" className="dropdown-btn" onClick={handleLogout} disabled={isLoading}>
+                        logout
+                    </button>
+                </div>
+            </Wrapper>
+        )
 }
+export default LogoutContainer
