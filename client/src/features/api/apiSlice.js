@@ -84,6 +84,13 @@ export const apiSlice = createApi({
                 method: 'PATCH',
                 body: data
             })
+        }),
+        showStats: builder.query({
+            query: () => ({
+                url: '/jobs/stats',
+                method: 'GET'
+            }),
+            providesTags: ['Jobs']
         })
     })
 })
@@ -98,5 +105,6 @@ export const { useRegisterMutation,
     useGetJobQuery,
     useDeleteJobMutation,
     useGetAppStatsQuery,
-    useUpdateUserMutation } = apiSlice
+    useUpdateUserMutation,
+    useShowStatsQuery } = apiSlice
 
