@@ -43,9 +43,10 @@ export const apiSlice = createApi({
             invalidatesTags: ['Jobs']
         }),
         getJobs: builder.query({
-            query: () => ({
+            query: (query) => ({
                 url: '/jobs',
-                method: 'GET'
+                method: 'GET',
+                params: query
             }),
             providesTags: ['Jobs']
         }),
