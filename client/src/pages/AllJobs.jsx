@@ -1,12 +1,29 @@
-import JobContainer from '../components/JobsContainer'
-
+import JobContainer from "../components/JobsContainer";
+import SearchContainer from "../components/SearchContainer";
+import { useGetJobsQuery } from "../features/api/apiSlice";
+import { useState } from "react";
 const AllJobs = () => {
-    return (
-        <>
+  const [formData, setFormData] = useState({});
+  const { data } = useGetJobsQuery({
+    search: formData.search,
+    jobStatus: formData.jobStatus,
+    jobType: formData.jobType,
+    sort: formData.sort,
+  });
 
-            <JobContainer />
-        </>
-    )
-}
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-export default AllJobs
+  return (
+    <>
+      <SearchContainer handleChange={handleChange} />
+      {data && <JobContainer data={data} />}
+    </>
+  );
+};
+
+export default AllJobs;
