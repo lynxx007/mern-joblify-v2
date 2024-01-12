@@ -23,7 +23,7 @@ var __dirname = dirname(fileURLToPath(import.meta.url))
 
 const app = express()
 
-app.use(express.static(path.resolve(__dirname, './public')))
+app.use(express.static(path.resolve(__dirname, './client/public')))
 
 
 app.use(cookieParser())
